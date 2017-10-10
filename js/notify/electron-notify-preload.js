@@ -20,6 +20,7 @@ function setStyle(config) {
     let header = notiDoc.getElementById('header');
     let image = notiDoc.getElementById('image');
     let title = notiDoc.getElementById('title');
+    let pod = notiDoc.getElementById('pod');
     let message = notiDoc.getElementById('message');
     let close = notiDoc.getElementById('close');
 
@@ -38,6 +39,8 @@ function setStyle(config) {
     setStyleOnDomElement(config.defaultStyleImage, image);
 
     setStyleOnDomElement(config.defaultStyleTitle, title);
+
+    setStyleOnDomElement(config.defaultStylePod, pod);
 
     setStyleOnDomElement(config.defaultStyleText, message);
 
@@ -75,6 +78,22 @@ function setContents(event, notificationObj) {
 
     if (notificationObj.color) {
         container.style.backgroundColor = notificationObj.color;
+
+        if (notificationObj.color.match(/^(?:white|#fff(?:fff)?|rgba?\(\s*255\s*,\s*255\s*,\s*255\s*(?:,\s*1\s*)?\))$/i)) {
+            let logo = notiDoc.getElementById('symphony-logo');
+            logo.src = './assets/symphony-logo-black.png';
+        } else {
+
+            let logo = notiDoc.getElementById('symphony-logo');
+            let title = notiDoc.getElementById('title');
+            let pod = notiDoc.getElementById('pod');
+            let message = notiDoc.getElementById('message');
+
+            message.style.color = '#ffffff';
+            title.style.color = '#ffffff';
+            pod.style.color = notificationObj.color;
+            logo.src = './assets/symphony-logo-white.png';
+        }
     }
 
     if (notificationObj.flash) {
