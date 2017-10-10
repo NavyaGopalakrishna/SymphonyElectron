@@ -5,6 +5,9 @@ const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = require('
 
 class SpellCheckHelper {
 
+    /**
+     * A constructor to create an instance of the spell checker
+     */
     constructor() {
         this.spellCheckHandler = new SpellCheckHandler();
     }
@@ -41,12 +44,23 @@ class SpellCheckHelper {
      * @returns menu
      */
     static processMenu(menu) {
-        menu.append(new MenuItem({ type: 'separator' }));
-        menu.append(new MenuItem({
-            role: 'reload',
-            accelerator: 'CmdOrCtrl+R',
-            label: 'Reload'
-        }));
+
+        let isLink = false;
+        menu.items.map((item) => {
+            if (item.label === 'Copy Link'){
+                isLink = true;
+            }
+            return item;
+        });
+
+        if (!isLink){
+            menu.append(new MenuItem({ type: 'separator' }));
+            menu.append(new MenuItem({
+                role: 'reload',
+                accelerator: 'CmdOrCtrl+R',
+                label: 'Reload'
+            }));
+        }
         return menu;
     }
 
