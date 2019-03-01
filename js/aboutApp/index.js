@@ -88,14 +88,26 @@ function openAboutWindow(windowName) {
         // initialize crash reporter
         initCrashReporterMain({ process: 'about app window' });
         initCrashReporterRenderer(aboutWindow, { process: 'render | about app window' });
-        aboutWindow.webContents.send('versionInfo', { version, clientVersion, buildNumber });
+        aboutWindow.webContents.send('versionInfo', { 
+            version,
+            clientVersion,
+            buildNumber,
+            i18n: i18n.getMessageFor('AboutSymphony')
+        });
         if (!isMac) {
             // prevents from displaying menu items when "alt" key is pressed
             aboutWindow.setMenu(null);
         }
     });
 
-    aboutWindow.webContents.on('crashed', function () {
+    aboutWindow.webContents.on('crashed', function (event, killed) {
+
+        log.send(logLevels.INFO, `About Window crashed! Killed? ${killed}`);
+
+        if (killed) {
+            return;
+        }
+
         const options = {
             type: 'error',
             title: i18n.getMessageFor('Renderer Process Crashed'),

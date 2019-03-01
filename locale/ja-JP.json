@@ -34,9 +34,9 @@
     "Search with Google": "Googleで検索"
   },
   "DownloadManager": {
-    "Show in Folder": "フォルダで見て",
-    "Reveal in Finder": "Finderで明らかにする",
-    "Open": "開いた",
+    "Show in Folder": "フォルダーを開く",
+    "Reveal in Finder": "Finderで確認する",
+    "Open": "開く",
     "Downloaded": "ダウンロード済み",
     "File not Found": "ファイルが見つかりません",
     "The file you are trying to open cannot be found in the specified path.": "開こうとしているファイルが指定されたパスに見つかりません."
@@ -45,9 +45,9 @@
   "Custom": "カスタム",
   "Cut": "切り取り",
   "Delete": "削除",
-  "Dev Tools disabled": "開発ツールを無効にする",
-  "Dev Tools has been disabled. Please contact your system administrator": "Dev Toolsが無効になっています。システム管理者に連絡してください",
   "Disable Hamburger menu": "ハンバーガーメニューを無効にする",
+  "Dev Tools disabled": "開発ツールが無効",
+  "Dev Tools has been disabled! Please contact your system administrator to enable it!": "開発ツールが無効になっています。システム管理者に連絡して、有効にしてください。",
   "Edit": "編集",
   "Enable Hamburger menu": "ハンバーガーメニューを有効にする",
   "Error loading configuration": "構成の読み込みエラー",
@@ -111,12 +111,21 @@
     "Select Screen": "画面を選択",
     "Share": "共有"
   },
+  "ScreenSharingIndicator": {
+    "You are sharing your screen on Symphony": "あなたはSymphony上であなたの画面を共有しています",
+    "Stop Sharing": "共有を停止",
+    "Hide": "非表示にする"
+  },
   "ScreenSnippet": {
     "Done": "完了",
     "Erase": "消去",
     "Highlight": "強調",
     "Pen": "ペン",
     "Snipping Tool": "切り取りツール"
+  },
+  "AboutSymphony": {
+    "About Symphony": "Symphonyについて",
+    "Version": "バージョン"
   },
   "Select All": "すべてを選択",
   "Services": "サービス",

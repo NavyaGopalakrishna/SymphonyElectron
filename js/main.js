@@ -49,9 +49,11 @@ require('./mainApiMgr.js');
 // monitor memory of main process
 require('./memoryMonitor.js');
 
+// adds 'symphony' as a protocol in the system.
+// plist file in macOS and registry entries on windows
+app.setAsDefaultProtocolClient('symphony');
+
 const windowMgr = require('./windowMgr.js');
-const SpellChecker = require('./spellChecker').SpellCheckHelper;
-const spellchecker = new SpellChecker();
 const { ContextMenuBuilder } = require('electron-spellchecker');
 const i18n = require('./translation/i18n');
 
@@ -227,12 +229,7 @@ app.on('activate', function () {
     }
 });
 
-// adds 'symphony' as a protocol in the system. plist file in macOS
-
-// on windows, we create the protocol handler via the installer
-// because electron leaves registry traces upon uninstallation
 if (isMac) {
-    app.setAsDefaultProtocolClient('symphony');
     // Sets application version info that will be displayed in about app panel
     app.setAboutPanelOptions({ applicationVersion: `${clientVersion}-${version}`, version: buildNumber });
 }
@@ -252,6 +249,7 @@ app.on('web-contents-created', function (event, webContents) {
 });
 
 function onWebContent(webContents) {
+    const spellchecker = windowMgr.getSpellchecker();
     spellchecker.initializeSpellChecker();
     spellchecker.updateContextMenuLocale(i18n.getMessageFor('ContextMenu'));
     const contextMenuBuilder = new ContextMenuBuilder(spellchecker.spellCheckHandler, webContents, false, spellchecker.processMenu.bind(spellchecker));

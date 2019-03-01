@@ -130,6 +130,8 @@ let config = {
         webkitBoxOrient: 'vertical',
         cursor: 'default',
         textOverflow: 'ellipsis',
+        width: '100%',
+        overflowWrap: 'break-word',
     },
     defaultStyleLogoContainer: {
         display: 'flex',
@@ -685,7 +687,7 @@ function moveNotificationAnimation(i, done) {
  * @param posY
  */
 function setWindowPosition(browserWin, posX, posY) {
-    if (!browserWin.isDestroyed()) {
+    if (browserWin && !browserWin.isDestroyed()) {
         browserWin.setPosition(parseInt(posX, 10), parseInt(posY, 10))
     }
 }

@@ -11,7 +11,7 @@
 // also to bring pieces of node.js:
 // https://github.com/electron/electron/issues/2984
 //
-const { ipcRenderer, remote, crashReporter } = require('electron');
+const { ipcRenderer, remote, crashReporter, webFrame } = require('electron');
 
 const throttle = require('../utils/throttle.js');
 const apiEnums = require('../enums/api.js');
@@ -19,6 +19,7 @@ const apiCmds = apiEnums.cmds;
 const apiName = apiEnums.apiName;
 const getMediaSources = require('../desktopCapturer/getSources');
 const getMediaSource = require('../desktopCapturer/getSource');
+const showScreenSharingIndicator = require('../screenSharingIndicator/showScreenSharingIndicator');
 const { TitleBar } = require('../windowsTitlebar');
 const titleBar = new TitleBar();
 const { buildNumber } = require('../../package.json');
@@ -84,6 +85,15 @@ const throttledSetIsInMeetingStatus = throttle(1000, function (isInMeeting) {
  */
 local.ipcRenderer.on('on-page-load', () => {
     snackBar = new SnackBar();
+
+    webFrame.setSpellCheckProvider('en-US', true, {
+        spellCheck(text) {
+            return !local.ipcRenderer.sendSync(apiName, {
+                cmd: apiCmds.isMisspelled,
+                text
+            });
+        }
+    });
 
     // only registers main window's preload
     if (window.name === 'main') {
@@ -316,6 +326,20 @@ function createAPI() {
          * and returns selected source
          */
         getMediaSource: getMediaSource,
+
+        /**
+         * Shows a banner that informs user that the screen is being shared.
+         *
+         * @param params object with following fields:
+         *    - stream https://developer.mozilla.org/en-US/docs/Web/API/MediaStream/MediaStream object.
+         *             The indicator automatically destroys itself when stream becomes inactive (see MediaStream.active).
+         *    - displayId id of the display that is being shared or that contains the shared app
+         * @param callback callback function that will be called to handle events.
+         * Callback receives event object { type: string }. Types:
+         *    - 'error' - error occured. Event object contains 'reason' field.
+         *    - 'stopRequested' - user clicked "Stop Sharing" button.
+         */
+        showScreenSharingIndicator: showScreenSharingIndicator,
 
         /**
          * Opens a modal window to configure notification preference.
